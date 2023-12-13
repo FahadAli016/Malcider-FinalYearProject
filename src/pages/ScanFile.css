@@ -1,0 +1,11 @@
+/* ScanFile.css */
+.modal-container {
+    pointer-events: auto;
+  }
+  
+  .modal-open {
+    pointer-events: none;
+  }
+  
+
+  
