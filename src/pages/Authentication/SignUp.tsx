@@ -70,7 +70,7 @@ const SignUp = () => {
             autoClose: 1000,
             closeOnClick: true,
           });
-          navigate("/");
+          navigate("/auth/signin");
         }
       } catch (error) {
         console.log(error);
