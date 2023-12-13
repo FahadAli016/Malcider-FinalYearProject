@@ -2,10 +2,95 @@ import Breadcrumb from '../components/Breadcrumb';
 import userThree from '../images/user/user-03.png';
 import fireToast from '../hooks/fireToast';
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { toast } from 'react-toastify';
+import axios from 'axios';
 const Settings = () => {
+  const storedUser = localStorage.getItem("user");
+  if (storedUser) {
+    // If there is a user, parse it and print the name to the console
+    const parsedUser = JSON.parse(storedUser);
+    var useremail = parsedUser.email;
+    var username= parsedUser.name;
+    var userid=parsedUser._id;
+    var token= parsedUser.token;
+  }
   
- 
+  const [formData, setFormData] = useState({
+    id: userid,
+    name: username,
+    email:useremail,
+    password:"",
+    password2:""
+  });
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  const passwordRegex = /^(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,}$/;
+
+  const onSubmit = async (e: any) => {
+    e.preventDefault();
+    if (!formData.name.trim() || !formData.email.trim() || !formData.password.trim() || !formData.password2.trim()) {
+      toast.error("Please fill in all fields");
+      return;
+    }
+
+    if (formData.password !== formData.password2) {
+      toast.error("Passwords do not match");
+    }
+    else if (!emailRegex.test(formData.email)) {
+      toast.error("Invalid email format");
+    } else if (!passwordRegex.test(formData.password)) {
+    
+      toast.error("Password must be at least 8 characters and contain a special character", {
+        autoClose: 5000,
+        closeOnClick: true,
+      });
+    }
+     else {
+      console.log(formData);
+      
+      try {
+        const response = await axios.put(`http://127.0.0.1:4000/users/editProfile`, 
+         formData
+        , {
+          headers:{
+            Authorization : `Bearer ${token}`
+            }
+        });
+        if (response.status == 201) {
+          toast.success("Account successfully updated.", {
+            autoClose: 1000,
+            closeOnClick: true,
+          });
+          setFormData({
+            id:"",
+            name:"",
+            email:"",
+            password:"",
+            password2:""  
+          })
+        }
+      } catch (error) {
+        console.log(error);
+        toast.success("Email Already exist", {
+          autoClose: 1000,
+          closeOnClick: true,
+        });
+       
+        navigate("/auth/signup")
+      }
+    }
+  };
+  const onChange = (e: any) => {
+    setFormData((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+
+
   useEffect(() => {
     // storing input name
     
@@ -28,7 +113,7 @@ const Settings = () => {
                 </h3>
               </div>
               <div className="p-7">
-                <form action="#">
+                <form action="#" onSubmit={onSubmit}>
                   
                 <div className="mb-4">
                   <label className="mb-2.5 block font-medium text-black dark:text-white">
@@ -38,7 +123,8 @@ const Settings = () => {
                     <input
                       type="text"
                       name="name"
-                     
+                     value={formData.name}
+                     onChange={onChange}
                       placeholder="Enter your full name"
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                     />
@@ -75,7 +161,8 @@ const Settings = () => {
                     <input
                       type="email"
                       name="email"
-                      
+                      value={formData.email}
+                      onChange={onChange}
                       placeholder="Enter your email"
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:bg-form-input dark:focus:border-primary"
                     />
@@ -108,7 +195,8 @@ const Settings = () => {
                     <input
                       type="password"
                       name="password"
-                      
+                      onChange={onChange}
+                      value={formData.password}
                       placeholder="Enter your password"
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                     />
@@ -145,7 +233,8 @@ const Settings = () => {
                     <input
                       type="password"
                       name="password2"
-                     
+                      onChange={onChange}
+                      value={formData.password2}
                       placeholder="Re-enter your password"
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                     />
@@ -286,3 +375,7 @@ const Settings = () => {
 };
 
 export default Settings;
+function navigate(arg0: string) {
+  throw new Error('Function not implemented.');
+}
+

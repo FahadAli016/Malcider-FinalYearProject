@@ -19,7 +19,7 @@ const AdminSidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
     const darkModeImagePath = '/src/images/logo/malcider_logo.png';
 
     // Return the appropriate image path based on the color mode
-    return colorChange === 'light' ? darkModeImagePath : lightModeImagePath ;
+    return colorChange === 'light' ? lightModeImagePath : darkModeImagePath ;
   };
 
   const trigger = useRef<any>(null);

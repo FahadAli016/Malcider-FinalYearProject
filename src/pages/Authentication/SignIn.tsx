@@ -38,16 +38,17 @@ const SignIn = () => {
         email,
         password,
       });
-      toast.success('Login Successfull.', {
+      toast.success(`Login Successfull.`, {
         autoClose: 1000,
         closeOnClick: true,
       });
       setUser(response.data);
+      console.log()
       navigate('/dashboard');
     } catch (error) {
       toast.error('Invalid user credentials.');
       setFormData({ email: '', password: '' });
-      navigate('/');
+      navigate('/auth/signin');
     }
   };
 
@@ -62,7 +63,7 @@ const SignIn = () => {
               </Link>
 
               <p className="2xl:px-20 text-black-2 dark:text-white font-medium">
-               Unmasking Threats,Empoweering Security
+              Unmasking Threats,Empoweering Security
               </p>
 
               <img className="lg:h-100 lg:w-95 sm:h-22 sm:w-20 ml-20 " src="\src\images\logo\Cyber attack-bro.png" alt="Logo"  />
@@ -140,8 +141,8 @@ const SignIn = () => {
                             fill=""
                           />
                           <path
-                            d="M10.9977 11.8594C10.5852 11.8594 10.207 12.2031 10.207 12.65V16.2594C10.207 16.6719 10.5508 17.05 10.9977 17.05C11.4102 17.05 11.7883 16.7063 11.7883 16.2594V12.6156C11.7883 12.2031 11.4102 11.8594 10.9977 11.8594Z"
-                            fill=""
+                          d="M10.9977 11.8594C10.5852 11.8594 10.207 12.2031 10.207 12.65V16.2594C10.207 16.6719 10.5508 17.05 10.9977 17.05C11.4102 17.05 11.7883 16.7063 11.7883 16.2594V12.6156C11.7883 12.2031 11.4102 11.8594 10.9977 11.8594Z"
+                          fill=""
                           />
                         </g>
                       </svg>

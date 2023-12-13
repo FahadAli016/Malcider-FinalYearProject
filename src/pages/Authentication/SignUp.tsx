@@ -74,6 +74,10 @@ const SignUp = () => {
         }
       } catch (error) {
         console.log(error);
+        toast.error("Email Already exist", {
+          autoClose: 1000,
+          closeOnClick: true,
+        });
        
         navigate("/auth/signup")
       }

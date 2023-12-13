@@ -75,7 +75,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
       {/* <!-- SIDEBAR HEADER --> */}
       <div className="flex items-center justify-between gap-2 px-6 py-5.5 lg:pt-3 outline-none cursor-pointer">
       <NavLink to="/dashboard" className="outline-none cursor-auto" >
-          <img className="lg:h-22 lg:w-65 sm:h-22 sm:w-20 " src={getImageSource()} alt="Logo"  />
+          <img className="h-22 w-65  " src={getImageSource()} alt="Logo"  />
         </NavLink>
 
         <button
